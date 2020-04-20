@@ -4,7 +4,7 @@ import '../providers/product.dart';
 import '../providers/products.dart';
 
 class EditProductScreen extends StatefulWidget {
-  static const routName = '/edit-product';
+  static const routeName = '/edit-product';
 
   @override
   _EditProductScreenState createState() => _EditProductScreenState();
@@ -71,7 +71,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _updateImageUrl() {
-    if (_imageUrlFocusNode.hasFocus) {
+    if (!_imageUrlFocusNode.hasFocus) {
       if ((!_imageUrlController.text.startsWith('http') &&
               !_imageUrlController.text.startsWith('https')) ||
           (!_imageUrlController.text.endsWith('.png') &&
@@ -96,22 +96,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
       await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
+        // not automatically out of the textformfield will be solved put <Null>
+        //
         await showDialog<Null>(
           context: context,
-          builder: (ctx) => AlertDialog(
+          builder: (context) => AlertDialog(
             title: Text('An error occurred!'),
             content: Text('Something went wrong!'),
             actions: <Widget>[
               FlatButton(
                 child: Text('Okay'),
                 onPressed: () {
-                  Navigator.of(ctx).pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -129,7 +131,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = false;
     });
 
-    // Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
