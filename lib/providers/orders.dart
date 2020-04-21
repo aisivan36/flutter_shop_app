@@ -36,7 +36,8 @@ class Orders with ChangeNotifier {
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     if (extractedData == null) {
-      _orders = loadedOrders;
+      // bug create two user fixed
+      _orders = loadedOrders; // loadedOrders is initialized as an empty array
       notifyListeners();
       return;
     }
